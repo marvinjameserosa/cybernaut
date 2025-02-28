@@ -30,7 +30,6 @@ export default function ClassicalCipherChallenge() {
       '> Phantom protocol activated',
       '> Ready for decryption sequence',
     ];
-
     let timeout = 0;
     startupSequence.forEach((line) => {
       timeout += Math.random() * 300 + 100;
@@ -108,10 +107,8 @@ export default function ClassicalCipherChallenge() {
       ...prev,
       `> Attempting decryption with ${activeCipher === 'caesar' ? `shift key: ${caesarShift}` : `key: ${vigenereKey}`}`,
     ]);
-
     setGlitchEffect(true);
     setDataCorruption(true);
-
     setTimeout(() => {
       setGlitchEffect(false);
       setDataCorruption(false);
@@ -120,7 +117,6 @@ export default function ClassicalCipherChallenge() {
         : applyVigenereCipher(cipherText, vigenereKey);
       setDecodedMessage(decoded);
       setTerminalHistory((prev) => [...prev, '> Decryption attempt complete']);
-
       if (Math.random() > 0.7) {
         setTimeout(() => {
           setTerminalHistory((prev) => [
@@ -135,9 +131,7 @@ export default function ClassicalCipherChallenge() {
   const handleSubmit = async (flag: string) => {
     setTerminalHistory((prev) => [...prev, `> Validating flag: ${flag}`]);
     setGlitchEffect(true);
-
     const isCorrect = flag.trim().toUpperCase() === 'CYBERNAUT-ORIGIN';
-
     setTimeout(() => {
       setGlitchEffect(false);
       if (isCorrect) {
@@ -160,7 +154,6 @@ export default function ClassicalCipherChallenge() {
         ]);
       }
     }, 800);
-
     return isCorrect;
   };
 
@@ -169,11 +162,9 @@ export default function ClassicalCipherChallenge() {
       const shouldGlitch = glitchEffect && Math.random() > 0.7;
       const shouldDisplace = glitchEffect && Math.random() > 0.9;
       const shouldReplace = dataCorruption && Math.random() > 0.9;
-
       const glitchChar = shouldReplace
         ? String.fromCharCode(Math.floor(Math.random() * 26) + 65)
         : char;
-
       return (
         <span
           key={i}
@@ -206,7 +197,6 @@ export default function ClassicalCipherChallenge() {
       {/* Decorative elements - monochrome noise patterns */}
       <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl -z-10"></div>
       <div className="absolute bottom-0 left-0 w-40 h-40 bg-white/5 rounded-full blur-3xl -z-10"></div>
-
       {/* Glitch overlay */}
       {glitchEffect && (
         <div className="absolute inset-0 bg-transparent z-10 overflow-hidden pointer-events-none">
@@ -224,7 +214,6 @@ export default function ClassicalCipherChallenge() {
           ></div>
         </div>
       )}
-
       {/* Data corruption effect */}
       {dataCorruption && (
         <div className="absolute inset-0 bg-transparent z-20 overflow-hidden pointer-events-none">
@@ -241,7 +230,6 @@ export default function ClassicalCipherChallenge() {
           ></div>
         </div>
       )}
-
       {/* Scanline effect */}
       {scanlineEffect && (
         <div className="absolute inset-0 bg-transparent z-10 overflow-hidden pointer-events-none">
@@ -254,7 +242,6 @@ export default function ClassicalCipherChallenge() {
           ))}
         </div>
       )}
-
       <div
         className={`bg-black border border-zinc-900 rounded-md p-5 backdrop-blur-sm relative overflow-hidden shadow-lg ${
           flickerEffect ? 'brightness-110' : ''
@@ -271,7 +258,6 @@ export default function ClassicalCipherChallenge() {
           Warning: This data is classified. Unauthorized access will be traced and prosecuted.
         </p>
       </div>
-
       <Terminal className="h-64 border border-zinc-900 bg-black shadow-[0_0_15px_rgba(255,255,255,0.05)] rounded-md overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-0.5 bg-white/10"></div>
         <div className="flex items-center gap-1 mb-3 opacity-70">
@@ -280,7 +266,6 @@ export default function ClassicalCipherChallenge() {
           <div className="w-2 h-2 rounded-full bg-white/30"></div>
           <span className="text-xs text-gray-600 ml-2">phantom-terminal</span>
         </div>
-
         {terminalHistory.map((line, index) => (
           <div
             key={index}
@@ -300,7 +285,6 @@ export default function ClassicalCipherChallenge() {
               : line}
           </div>
         ))}
-
         <div className="text-white/80 mt-2">Intercepted message:</div>
         <div className="text-white font-bold text-lg my-2 font-mono tracking-wider">
           {renderGlitchedText(cipherText)}
@@ -313,7 +297,6 @@ export default function ClassicalCipherChallenge() {
           Warning: Terminal access limited. Manual decryption required.
         </div>
       </Terminal>
-
       <Tabs defaultValue="decoder" className="mt-4">
         <TabsList className="grid w-full grid-cols-2 bg-zinc-950 border border-zinc-900">
           <TabsTrigger
@@ -329,7 +312,6 @@ export default function ClassicalCipherChallenge() {
             Cipher Reference
           </TabsTrigger>
         </TabsList>
-
         <TabsContent value="decoder">
           <Card className="border border-zinc-900 bg-black backdrop-blur-sm p-5 shadow-lg">
             <div className="space-y-4">
@@ -354,7 +336,6 @@ export default function ClassicalCipherChallenge() {
                   </Button>
                 </div>
               </div>
-
               {activeCipher === 'caesar' ? (
                 <div>
                   <label className="text-white/90 block mb-2 font-medium">Caesar Shift:</label>
@@ -384,7 +365,14 @@ export default function ClassicalCipherChallenge() {
                   />
                 </div>
               )}
-
+              <div>
+                <label className="text-white/90 block mb-2 font-medium">Encrypted Message:</label>
+                <Input
+                  value={cipherText}
+                  onChange={(e) => setCipherText(e.target.value)}
+                  className="bg-zinc-950 border border-zinc-800 text-white font-mono"
+                />
+              </div>
               <Button
                 onClick={handleDecodeAttempt}
                 className="bg-gradient-to-r from-zinc-900 to-black hover:from-black hover:to-zinc-900 text-white border border-zinc-800 shadow-lg shadow-black/50 relative overflow-hidden group"
@@ -408,7 +396,6 @@ export default function ClassicalCipherChallenge() {
                   Decrypt Message
                 </span>
               </Button>
-
               {decodedMessage && (
                 <div className="mt-4 p-4 bg-zinc-950 border border-zinc-900 rounded-md shadow-inner relative overflow-hidden">
                   <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
@@ -421,12 +408,10 @@ export default function ClassicalCipherChallenge() {
             </div>
           </Card>
         </TabsContent>
-
         <TabsContent value="reference">
           <Card className="border border-zinc-900 bg-black backdrop-blur-sm p-5 shadow-lg">
             <div className="space-y-4 relative">
               <div className="absolute top-0 right-0 w-20 h-20 bg-white/5 rounded-full blur-xl -z-10"></div>
-
               <h4 className="text-lg font-medium text-white/90 border-b border-zinc-900 pb-2">
                 {activeCipher === 'caesar' ? 'Caesar Cipher' : 'Vigenère Cipher'}
               </h4>
@@ -435,7 +420,6 @@ export default function ClassicalCipherChallenge() {
                   ? 'The Caesar cipher is one of the earliest known encryption techniques from the pre-digital era. It works by shifting each letter in the plaintext a certain number of places down the alphabet.'
                   : 'The Vigenère cipher is a method of encrypting alphabetic text by using a simple form of polyalphabetic substitution. It uses a keyword to determine the shift for each letter, making it more secure than the Caesar cipher.'}
               </p>
-
               <div className="font-mono text-sm text-zinc-500 border border-zinc-900 rounded p-3 bg-zinc-950 shadow-inner">
                 <div className="grid grid-cols-2 gap-2">
                   <div>
@@ -456,7 +440,6 @@ export default function ClassicalCipherChallenge() {
                   </div>
                 </div>
               </div>
-
               <div className="bg-zinc-950 border border-zinc-900 p-3 rounded text-sm">
                 <div className="text-white/90 font-medium mb-1">Phantom Tip:</div>
                 <p className="text-zinc-500">
@@ -485,7 +468,6 @@ export default function ClassicalCipherChallenge() {
             style={{ top: `${i * 1}%` }}
           ></div>
         ))}
-
         {/* Random digital noise */}
         {dataCorruption &&
           Array.from({ length: 10 }).map((_, i) => (
@@ -500,7 +482,6 @@ export default function ClassicalCipherChallenge() {
             ></div>
           ))}
       </div>
-
       <ChallengeDisplay
         id="crypto-classical-01"
         title="Decrypting the Origin"
